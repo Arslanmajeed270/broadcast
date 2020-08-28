@@ -1,6 +1,10 @@
 version: '3'
 
 services:
+    amoxt-service:
+         build:
+            context: .
+            dockerfile: amoxt-broadcast-service/Dockerfile
     # Frontend
     web:
         # image: jitsi/web:latest

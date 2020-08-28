@@ -1,0 +1,21 @@
+{
+  "name": "amoxt-broadcast-service",
+  "version": "1.0.0",
+  "description": "This will work as a bridge between jitsi meet and client",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Amoxt Solution",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "expressjs": "^1.0.1"
+  }
+}

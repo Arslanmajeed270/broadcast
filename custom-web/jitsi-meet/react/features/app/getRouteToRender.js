@@ -55,7 +55,7 @@ export function _getRouteToRender(stateful: Function | Object): Promise<Route> {
  */
 function _getMobileRoute(state): Promise<Route> {
     const route = _getEmptyRoute();
-
+    console.log("testing|");
     if (isRoomValid(state['features/base/conference'].room)) {
         route.component = Conference;
     } else if (isWelcomePageAppEnabled(state)) {

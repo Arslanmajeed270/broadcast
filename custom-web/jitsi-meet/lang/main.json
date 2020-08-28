@@ -102,6 +102,7 @@
         "bandwidth": "Estimated bandwidth:",
         "bitrate": "Bitrate:",
         "bridgeCount": "Server count: ",
+        "codecs": "Codecs (A/V): ",
         "connectedTo": "Connected to:",
         "e2e_rtt": "E2E RTT:",
         "framerate": "Frame rate:",
@@ -190,6 +191,7 @@
         "connectErrorWithMsg": "Oops! Something went wrong and we couldn't connect to the conference: {{msg}}",
         "connecting": "Connecting",
         "contactSupport": "Contact support",
+        "copied": "Copied",
         "copy": "Copy",
         "dismiss": "Dismiss",
         "displayNameRequired": "Hi! What’s your name?",
@@ -315,6 +317,9 @@
     },
     "e2ee": {
         "labelToolTip": "Audio and Video Communication on this call is end-to-end encrypted"
+    },
+    "embedMeeting": {
+        "title": "Embed this meeting"
     },
     "feedback": {
         "average": "Average",
@@ -501,6 +506,7 @@
         "audioAndVideoError": "Audio and video error:",
         "audioOnlyError": "Audio error:",
         "audioTrackError": "Could not create audio track.",
+        "calling": "Calling",
         "callMe": "Call me",
         "callMeAtNumber": "Call me at this number:",
         "configuringDevices": "Configuring devices...",
@@ -524,7 +530,8 @@
         "linkCopied": "Link copied to clipboard",
         "lookGood": "It sounds like your microphone is working properly",
         "or": "or",
-        "calling": "Calling",
+        "premeeting": "Pre meeting",
+        "showScreen": "Enable pre meeting screen",
         "startWithPhone": "Start with phone audio",
         "screenSharingError": "Screen sharing error:",
         "videoOnlyError": "Video error:",
@@ -668,6 +675,7 @@
             "chat": "Toggle chat window",
             "document": "Toggle shared document",
             "download": "Download our apps",
+            "embedMeeting": "Embed meeting",
             "e2ee": "End-to-End Encryption",
             "feedback": "Leave feedback",
             "fullScreen": "Toggle full screen",
@@ -716,6 +724,7 @@
         "documentOpen": "Open shared document",
         "download": "Download our apps",
         "e2ee": "End-to-End Encryption",
+        "embedMeeting": "Embed meeting",
         "enterFullScreen": "View full screen",
         "enterTileView": "Enter tile view",
         "exitFullScreen": "Exit full screen",
@@ -869,7 +878,7 @@
         "header": "Help center"
     },
     "lobby": {
-        "knockingParticipantList" : "Knocking participant list",
+        "knockingParticipantList": "Knocking participant list",
         "allow": "Allow",
         "backToKnockModeButton": "No password, ask to join instead",
         "dialogTitle": "Lobby mode",

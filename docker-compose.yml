@@ -2,9 +2,19 @@ version: '3'
 
 services:
     amoxt-service:
-         build:
+        build:
             context: .
             dockerfile: amoxt-broadcast-service/Dockerfile
+        volumes:
+            - amoxt-broadcast-service/src:/home/amoxt-broadcast-service/src
+        env_file: amoxt-broadcast-service/.env
+        command: npm start
+        ports:
+            - "${PORT}:3000"
+        networks:
+            meet.jitsi:
+                aliases:
+                    - ${XMPP_DOMAIN}
     # Frontend
     web:
         # image: jitsi/web:latest

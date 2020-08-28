@@ -1,6 +1,9 @@
 FROM node:9-slim
-WORKDIR /amoxt-broadcast-service
-COPY package.json   /amoxt-broadcast-service
-RUN npm install
-COPY . /amoxt-broadcast-service
-CMD [ "npm", "start" ]
+RUN mkdir -p /home/amoxt-broadcast-service
+WORKDIR /home/amoxt-broadcast-service
+
+COPY package.json package.json
+COPY package-lock.json package-lock.json
+RUN npm i
+
+COPY .env .env

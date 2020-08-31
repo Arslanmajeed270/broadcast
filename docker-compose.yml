@@ -1,20 +1,25 @@
 version: '3'
 
 services:
+    redis:
+        image: redis
+        networks:
+            - meet.jitsi
     amoxt-service:
         build:
             context: .
             dockerfile: amoxt-broadcast-service/Dockerfile
         volumes:
             - amoxt-broadcast-service/src:/home/amoxt-broadcast-service/src
-        env_file: amoxt-broadcast-service/.env
+        environment:
+            REDIS_HOST: redis
+            PORT: 3000
+            CONFIG: "~"
         command: npm start
         ports:
-            - "${PORT}:3000"
+            - "3000:3000"
         networks:
-            meet.jitsi:
-                aliases:
-                    - ${XMPP_DOMAIN}
+            - meet.jitsi
     # Frontend
     web:
         # image: jitsi/web:latest

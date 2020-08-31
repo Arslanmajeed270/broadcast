@@ -7,3 +7,5 @@ COPY package-lock.json package-lock.json
 RUN npm i
 
 COPY .env .env
+
+RUN command

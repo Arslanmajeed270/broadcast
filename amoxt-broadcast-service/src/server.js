@@ -1,10 +1,20 @@
 require('dotenv').config();
+const redis = require('redis');
 
 const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
 
+let RedisPort = process.env.REDIS_HOST || 6379;
+let client='';
+if(RedisPort === 'redis'){
+    client = redis.createClient(6379,'redis');
+
+}
+else{
+    client = redis.createClient(RedisPort);
+}
 
 const app = express();
 
@@ -20,9 +30,17 @@ app.use( (req, res, next) => {
 app.use('/', express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res, next) => {
+    client.setex('hello', 3600, 'this is value');
+    const Hello = client.get('hello', (err, data) => {
+        if(err) throw err;
+
+        if(data !== null){
+            console.log("I am here");
+
+            res.json({message: data});
+        }
+    });    
     
-    console.log("I am here");
-    res.json({message: 'no body wana see our together'});
 
 })
 
@@ -39,6 +57,7 @@ app.use((error, req, res, next) => {
 
 
 let Port = process.env.PORT || 3000;
+
 
 app.listen(Port);
 console.log(">>>>> Running:",Port," <<<<<");

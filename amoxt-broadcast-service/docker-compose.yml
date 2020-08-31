@@ -1,13 +1,22 @@
 version: '3'
 
 services:
+  redis:
+    image: redis
+    networks: 
+      - webnet  
   amoxt-service:
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
       - ./src:/home/amoxt-broadcast-service/src
-    env_file: .env
+    environment: 
+      REDIS_HOST: redis
     command: npm start
     ports:
-      - "8000:3000"
+      - "3000:3000"
+    networks: 
+      - webnet  
+networks: 
+  webnet:

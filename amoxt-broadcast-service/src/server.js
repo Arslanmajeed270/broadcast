@@ -24,9 +24,24 @@ app.use((req, res, next) => {
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
+
+app.get('/create-room:roomId', (req, res, next) => {
+    let room = req.params.roomId;
+    console.log("checking room: ", room);
+    client.SADD('rooms',room);
+    res.json({ message: `Successfully created new room:${room} ` });
+});
+
+app.get('/get-room', ( req, res, next ) => {
+    client.SMEMBERS('rooms', (err, data) => {
+        res.json({rooms: data});
+    });
+});
+
+
 app.get('/', (req, res, next) => {
     client.setex('hello', 3600, 'this is value');
-    const Hello = client.get('hello', (err, data) => {
+    client.get('hello', (err, data) => {
         if (err) throw err;
 
         if (data !== null) {

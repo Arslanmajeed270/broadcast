@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  amoxt-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/home/amoxt-broadcast-service/src
+    env_file: .env
+    command: npm start
+    ports:
+      - "8000:3000"

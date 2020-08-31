@@ -4,9 +4,7 @@ services:
     redis:
         image: redis
         networks:
-            meet.jitsi:
-                aliases:
-                    - ${XMPP_DOMAIN}
+            - meet.jitsi
     amoxt-service:
         build:
             context: .

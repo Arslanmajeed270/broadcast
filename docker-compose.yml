@@ -11,12 +11,7 @@ services:
             dockerfile: amoxt-broadcast-service/Dockerfile
         volumes:
             - amoxt-broadcast-service/src:/home/amoxt-broadcast-service/src
-        environment:
-            REDIS_HOST: redis
-            PORT: 3000
-            CONFIG: "~"
-            ROOM_EXPIRY_DURATION: 3600
-            SECRET_KEY: amoxtsolutions123456789abcdefghi
+        env_file: amoxt-broadcast-service/.env
         command: npm start
         ports:
             - "3000:3000"

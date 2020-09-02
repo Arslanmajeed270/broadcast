@@ -11,10 +11,7 @@ services:
             dockerfile: amoxt-broadcast-service/Dockerfile
         volumes:
             - amoxt-broadcast-service/src:/home/amoxt-broadcast-service/src
-        environment:
-            REDIS_HOST: redis
-            PORT: 3000
-            CONFIG: "~"
+        env_file: amoxt-broadcast-service/.env
         command: npm start
         ports:
             - "3000:3000"

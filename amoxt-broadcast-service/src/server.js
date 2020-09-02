@@ -1,10 +1,11 @@
-
 const redis = require('redis');
 
 const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+
+const {encrypt, decrypt} = require('./util/crypto');
 
 let RedisPort = process.env.REDIS_PORT || 6379;
 let RedisHost = process.env.REDIS_HOST || '0.0.0.0';
@@ -13,7 +14,7 @@ const client = redis.createClient(RedisPort, RedisHost);
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -24,12 +25,25 @@ app.use((req, res, next) => {
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
+app.post('/create-room', (req, res, next) => {
+    
+    let room_name = req.body.roomName;
+    let password = req.body.password;
+    let expiryTime = req.body.expTime || process.env.ROOM_EXPIRY_DURATION;
+    console.log("checking room_name: ", room_name, " password: ", password);
+    let encText = room_name+" "+password+" "+expiryTime;
+    var signature = encrypt(encText)
+    console.log("checking signature: ", signature);
+    console.log("checking decrypted signature:",decrypt(signature));
+    let room = {
+        roomName: room_name,
+        password: password,
+        signature: signature
+        };
+        
+    client.SADD('rooms',JSON.stringify(room));
+    res.json({ room:room, message: `Successfully created new` });
 
-app.get('/create-room:roomId', (req, res, next) => {
-    let room = req.params.roomId;
-    console.log("checking room: ", room);
-    client.SADD('rooms',room);
-    res.json({ message: `Successfully created new room:${room} ` });
 });
 
 app.get('/get-room', ( req, res, next ) => {
@@ -40,20 +54,17 @@ app.get('/get-room', ( req, res, next ) => {
 
 
 app.get('/', (req, res, next) => {
-    client.setex('hello', 3600, 'this is value');
-    client.get('hello', (err, data) => {
-        if (err) throw err;
+    let password = 'hello';
+    let roomName = 'sample';
+    let encText = roomName+" "+password+" "+process.env.ROOM_EXPIRY_DURATION;
+    console.log("checking encText: ", encText);
+    console.log("checking process.env.SECRET_KEY: ", process.env.SECRET_KEY);
 
-        if (data !== null) {
-            console.log("I am here");
-
-            res.json({ message: data });
-        }
-    });
-
-
-})
-
+    var hw = encrypt(encText)
+    console.log("checking encText after encryption: ", hw)
+    console.log("checking decrypted password:",decrypt(hw));
+    res.json({signature: hw});
+});
 
 
 //Catching error and setting variable in response of the request

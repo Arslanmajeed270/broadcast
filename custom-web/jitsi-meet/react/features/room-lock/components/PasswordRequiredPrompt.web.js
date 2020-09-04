@@ -9,7 +9,7 @@ import { Dialog } from '../../base/dialog';
 import { translate } from '../../base/i18n';
 import { connect } from '../../base/redux';
 import { _cancelPasswordRequiredPrompt } from '../actions';
-
+ //adding new line
 /**
  * The type of the React {@code Component} props of
  * {@link PasswordRequiredPrompt}.

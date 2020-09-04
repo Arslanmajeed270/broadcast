@@ -440,6 +440,8 @@ export function createConference() {
 
         conference[JITSI_CONFERENCE_URL_KEY] = locationURL;
 
+        console.log('checking url ', conference[JITSI_CONFERENCE_URL_KEY]);
+
         dispatch(_conferenceWillJoin(conference));
 
         _addConferenceListeners(conference, dispatch);

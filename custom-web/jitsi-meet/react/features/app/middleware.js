@@ -167,6 +167,7 @@ function _setRoom(store, next, action) {
     const result = next(action);
 
     _navigate(store);
+    console.log('checking result: ', result);
 
     return result;
 }

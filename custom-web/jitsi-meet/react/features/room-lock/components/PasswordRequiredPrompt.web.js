@@ -50,7 +50,8 @@ type State = {
  */
 class PasswordRequiredPrompt extends Component<Props, State> {
     state = {
-        password: ''
+        password: '',
+        visible: false
     };
 
     /**
@@ -69,6 +70,17 @@ class PasswordRequiredPrompt extends Component<Props, State> {
     }
 
     /**
+     * Dispatches action to submit value from this dialog.
+     *
+     * @returns {void}
+     */
+    componentDidMount() {
+
+        this._onSubmit();
+
+    }
+
+    /**
      * Implements React's {@link Component#render()}.
      *
      * @inheritdoc
@@ -76,7 +88,7 @@ class PasswordRequiredPrompt extends Component<Props, State> {
      */
     render() {
         return (
-            <Dialog
+            this.state.visible && <Dialog
                 disableBlanketClickDismiss = { true }
                 isModal = { false }
                 onCancel = { this._onCancel }
@@ -150,7 +162,13 @@ class PasswordRequiredPrompt extends Component<Props, State> {
      * @returns {boolean}
      */
     _onSubmit() {
+
         const { conference } = this.props;
+        const urlString = localStorage.getItem('pageURL');
+        const url = new URL(urlString);
+        const passIs = url.searchParams.get('token');
+        console.log('render1');
+        console.log('checking passIs: ', passIs);
 
         // We received that password is required, but user is trying anyway to
         // login without a password. Mark the room as not locked in case she
@@ -158,7 +176,7 @@ class PasswordRequiredPrompt extends Component<Props, State> {
         // still locked, another password required will be received and the room
         // again will be marked as locked.
         this.props.dispatch(
-            setPassword(conference, conference.join, this.state.password));
+            setPassword(conference, conference.join, passIs));
 
         // We have used the password so let's clean it.
         this.setState({

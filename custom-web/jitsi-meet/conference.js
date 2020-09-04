@@ -139,6 +139,7 @@ const eventEmitter = new EventEmitter();
 
 let room;
 let connection;
+let incorrectPasswordFailureCount = 0;
 
 /**
  * The promise is used when the prejoin screen is shown.
@@ -316,6 +317,7 @@ class ConferenceConnector {
 
             AuthHandler.requireAuth(room, password);
 
+
             break;
         }
 
@@ -362,8 +364,18 @@ class ConferenceConnector {
             APP.store.dispatch(reloadWithStoredParams());
             break;
 
+        case 'conference.passwordRequired': {
+            incorrectPasswordFailureCount++;
+
+            if (incorrectPasswordFailureCount > 1) {
+                console.log('interfaceConfig.ERROR_PAGE: ', interfaceConfig.ERROR_PAGE);
+                window.location.href = interfaceConfig.ERROR_PAGE;
+            }
+            break;
+        }
         default:
             this._handleConferenceFailed(err, ...params);
+
         }
     }
 

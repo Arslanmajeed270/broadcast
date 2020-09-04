@@ -51,7 +51,6 @@ function checkForAttachParametersAndConnect(id, password, connection) {
 
             return;
         }
-
         const attachOptions = window.XMPPAttachInfo.data;
 
         if (attachOptions) {
@@ -87,6 +86,7 @@ function connect(id, password, roomName) {
     // Use Websocket URL for the web app if configured. Note that there is no 'isWeb' check, because there's assumption
     // that this code executes only on web browsers/electron. This needs to be changed when mobile and web are unified.
     let serviceUrl = connectionConfig.websocket || connectionConfig.bosh;
+
 
     serviceUrl += `?room=${roomName}`;
 

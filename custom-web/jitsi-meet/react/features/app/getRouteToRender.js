@@ -38,6 +38,10 @@ export type Route = {
  * @returns {Promise<Route>}
  */
 export function _getRouteToRender(stateful: Function | Object): Promise<Route> {
+
+
+    localStorage.setItem('pageURL', window.location.href);
+
     const state = toState(stateful);
 
     if (navigator.product === 'ReactNative') {
@@ -76,16 +80,20 @@ function _getMobileRoute(state): Promise<Route> {
  */
 function _getWebConferenceRoute(state): ?Promise<Route> {
     if (!isRoomValid(state['features/base/conference'].room)) {
+
+
         return;
     }
 
     const route = _getEmptyRoute();
+
 
     // Update the location if it doesn't match. This happens when a room is
     // joined from the welcome page. The reason for doing this instead of using
     // the history API is that we want to load the config.js which takes the
     // room into account.
     const { locationURL } = state['features/base/connection'];
+
 
     if (window.location.href !== locationURL.href) {
         route.href = locationURL.href;
@@ -102,6 +110,7 @@ function _getWebConferenceRoute(state): ?Promise<Route> {
             } else {
                 route.component = UnsupportedDesktopBrowser;
             }
+
 
             return route;
         });

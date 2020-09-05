@@ -7,10 +7,18 @@ const bodyParser = require('body-parser');
 
 const {encrypt, decrypt} = require('./util/crypto');
 
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+const { v4: uuidv4 } = require('uuid');
+
+const authMiddleware = require('./middleware/auth');
 
 
-let RedisPort = process.env.REDIS_PORT || 6379;
-let RedisHost = process.env.REDIS_HOST || '0.0.0.0';
+
+const RedisPort = process.env.REDIS_PORT || 6379;
+const RedisHost = process.env.REDIS_HOST || '0.0.0.0';
+const SECRET_KEY = process.env.SECRET_KEY || 'amoxtsolutions123456789abcdefghi';
 
 const client = redis.createClient(RedisPort, RedisHost);
 
@@ -26,9 +34,84 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/', express.static(path.join(__dirname, 'public')));
+app.post('/register', async (req, res, next) => {
 
-app.post('/create-room', (req, res, next) => {
+    let email = req.body.email;
+    let password =  await bcrypt.hash(req.body.password, 12);
+    let id = uuidv4();
+    let userData = id+' '+password;
+
+
+    client.hexists('users001', email, (err, oldData) => {
+
+        if(err){
+            console.log('err: ', err);
+            if (!err.statusCode) {
+                err.statusCode = 500;
+              }
+              next(err);
+        }
+
+        if(oldData < 1){
+
+            client.hset('users001', email, userData, (err2, data) => {
+                if(err2){
+                    if (!err2.statusCode) {
+                        err2.statusCode = 500;
+                      }
+                      next(err2);
+                }
+                let result = {
+                    user: {
+                        id: id,
+                        email: email
+                    }
+                }
+                res.json(result);
+            });
+        }
+        else{
+            res.json({ message: `User already exits!` });
+        }
+    });
+});
+
+
+app.post('/login', (req, res, next) => {
+
+    let email = req.body.email;
+    let password =  req.body.password;
+
+        client.hget('users001', email, async (err2, data) => {
+        if(err2){
+            if (!err2.statusCode) {
+                err2.statusCode = 500;
+                }
+                next(err2);
+            }
+            if(!data){
+                res.json({message: "User not found!"});
+    
+            }
+            let userPassword = data.split(' ')[1];
+
+            //comparing encrypted password
+            const isEqual =  await bcrypt.compare(password, userPassword);
+            if(!isEqual){
+                res.json({message: 'Invalid credentials!'});
+            }
+
+                //generating token
+            const token = jwt.sign({email: email},PRIVATE_KEY);
+
+            res.json({token: token});
+    });
+
+});
+
+
+
+app.post('/create-room', authMiddleware, (req, res, next) => {
     
     let room_name = req.body.roomName;
     let password = req.body.password;
@@ -66,7 +149,7 @@ app.post('/create-room', (req, res, next) => {
 
 });
 
-app.get('/get-rooms', async ( req, res, next ) => {
+app.get('/get-rooms', authMiddleware,  async ( req, res, next ) => {
 
     client.hgetall('rooms001', (err, data) => {
         if(err){
@@ -82,7 +165,7 @@ app.get('/get-rooms', async ( req, res, next ) => {
 });
 
 
-app.get('/get-room/', async ( req, res, next ) => {
+app.get('/get-room/', authMiddleware, async ( req, res, next ) => {
 
     let roomName = req.query.roomName;
     console.log('checking roomName: ', roomName, typeof roomName);
@@ -111,7 +194,7 @@ app.get('/get-room/', async ( req, res, next ) => {
 });
 
 
-app.delete('/delete-room/', async ( req, res, next ) => {
+app.delete('/delete-room/', authMiddleware, async ( req, res, next ) => {
 
     let roomName = req.query.roomName;
     console.log('checking roomName: ', roomName, typeof roomName);

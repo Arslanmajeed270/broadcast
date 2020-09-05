@@ -92,6 +92,8 @@ var interfaceConfig = {
 
     ENABLE_FEEDBACK_ANIMATION: false, // Enables feedback star animation.
 
+    ERROR_PAGE: 'https://www.google.com', //custom 404 page for incorrect user
+
     FILM_STRIP_MAX_HEIGHT: 120,
 
     /**

@@ -52,25 +52,19 @@ Component "internal-muc.meet.jitsi" "muc"
     storage = "memory"
     modules_enabled = {
         "ping";
-	"persistant_rooms";
-        
     }
-    muc_room_locking = false
-    muc_room_default_public_jids = true
-    muc_room_default_persistent = true
-    restrict_room_creation = false
 
 Component "muc.meet.jitsi" "muc"
     storage = "memory"
     modules_enabled = {
         "muc_meeting_id";
-	"persistant_rooms";
+	    "persistant_rooms";
     }	
-    muc_room_cache_size = 1000
-    muc_room_locking = false
-    muc_room_default_public_jids = true
-    muc_room_default_persistent = true
-    restrict_room_creation = false
+--    muc_room_cache_size = 1000
+--    muc_room_locking = false
+--    muc_room_default_public_jids = true
+--    muc_room_default_persistent = true
+--    restrict_room_creation = false
 
 Component "focus.meet.jitsi"
     component_secret = "87a6714c503a5f50a1fb6b176240b824"

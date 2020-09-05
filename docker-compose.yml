@@ -10,8 +10,8 @@ services:
             context: .
             dockerfile: amoxt-broadcast-service/Dockerfile
         volumes:
-            - amoxt-broadcast-service/src:/home/amoxt-broadcast-service/src
-        env_file: amoxt-broadcast-service/.env
+            - ./amoxt-broadcast-service/src:/home/amoxt-broadcast-service/src
+        env_file: ./amoxt-broadcast-service/.env
         command: npm start
         ports:
             - "3000:3000"

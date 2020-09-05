@@ -111,6 +111,30 @@ app.get('/get-room/', async ( req, res, next ) => {
 });
 
 
+app.delete('/delete-room/', async ( req, res, next ) => {
+
+    let roomName = req.query.roomName;
+    console.log('checking roomName: ', roomName, typeof roomName);
+
+    client.hdel('rooms001', roomName, (err, data) => {
+        if(err){
+            console.log('erros: , err');
+            if (!err.statusCode) {
+                err.statusCode = 500;
+              }
+              next(err);
+        } 
+        if(data > 0){
+            res.json({message: `Successfully deleted ${roomName}!`});
+        }
+        res.json({message: `${roomName} not found!`});
+        
+    });
+  
+});
+
+
+
 app.get('/', (req, res, next) => {
     let password = 'hello';
     let roomName = 'sample';

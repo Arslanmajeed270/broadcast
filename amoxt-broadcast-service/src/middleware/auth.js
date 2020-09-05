@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
     throw error;
   }
 
-  const PRIVATE_KEY = 'myprivatekey';
+  const SECRET_KEY = process.env.JWT_PRIVATE_KEY || 'amoxtbroadcast';
 
   //spiliting Authorization then escape Bearer and send token in token variable
   const token = authHeader.split(' ')[1];
@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
   //trying to decode the token in any case it will throw error
   let decodedToken;
   try {
-    decodedToken = jwt.verify(token, PRIVATE_KEY);
+    decodedToken = jwt.verify(token, SECRET_KEY);
   } catch (err) {
     err.statusCode = 500;
     throw err;
@@ -30,10 +30,15 @@ module.exports = (req, res, next) => {
     error.statusCode = 401;
     throw error;
   }
-  
-  //seperating variables to use in next functions
-  req.email = decodedToken.email;
-  
+
+  //checking expiray of token
+  const currentTime = Date.now()/1000;
+  if (decodedToken.exp < currentTime) {
+    const error = new Error('Not authenticated.');
+    error.statusCode = 401;
+    throw error;
+}
+
   // calling next function
   next();
 };

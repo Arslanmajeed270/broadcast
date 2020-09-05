@@ -58,7 +58,7 @@ Component "muc.meet.jitsi" "muc"
     storage = "memory"
     modules_enabled = {
         "muc_meeting_id";
-	"persistant_rooms";
+	    "persistant_rooms";
     }	
 --    muc_room_cache_size = 1000
 --    muc_room_locking = false

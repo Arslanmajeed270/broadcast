@@ -11,13 +11,15 @@ const RedisHost = process.env.REDIS_HOST || '0.0.0.0';
 
 const client = redis.createClient(RedisPort, RedisHost);
 
+const secretKey = process.env.ROOM_SECRET_KEY || "amoxtsolutions123456789abcdefghi";
+
 
 router.post('/create-room', authMiddleware, (req, res, next) => {
 
     let room_name = req.body.roomName;
     let password = req.body.password;
     let expiryTime = req.body.expTime || process.env.ROOM_EXPIRY_DURATION;
-    let encText = room_name+" "+password+" "+expiryTime;
+    let encText = room_name+"|"+password+"|"+expiryTime+"|"+secretKey;
     var signature = encrypt(encText)
 
     let room = password+'|'+signature;
@@ -40,7 +42,9 @@ router.post('/create-room', authMiddleware, (req, res, next) => {
                       }
                       next(err2);
                 }
-                res.json({ room:room_name, message: `Successfully created new room!` });
+                const serverAddress = process.env.SERVER_ADDRESS || "https://localhost:8443/";
+                let link = `${serverAddress+room_name}?password=$temppassword&token=${signature}`;
+                res.json({ link: link, room:room_name, message: `Successfully created new room!` });
             });
         }
         else{

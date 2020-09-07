@@ -5,6 +5,8 @@ const Room = require('./entities/room');
 
 const app = express();
 
+const currentTime = Date.now()/1000;
+console.log("checking currentTime: ", currentTime);
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {

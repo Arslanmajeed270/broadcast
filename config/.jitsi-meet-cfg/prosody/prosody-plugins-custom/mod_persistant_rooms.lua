@@ -1,16 +1,13 @@
-module:log('INFO', "i am into mod_persistant");
 
-local formdecode = require "util.http".formdecode;
+log("info", "checking into mod_persistant_rooms.lua2");
+
 
 module:hook("muc-room-created", function(event)
+log("info", "into muc-room-created");
 
-    local session, request = event.session, event.request;
-	local query = request.url.query;
 
-	if query ~= nil then
-        local params = formdecode(query);
-    end;
-    module:log('INFO', 'checking params %s', params.tostring());
 
-            event.room:set_password("hello");
-end);
+local oldPassword = event.room:get_password();
+
+	event.room:set_password("hello");
+end);	

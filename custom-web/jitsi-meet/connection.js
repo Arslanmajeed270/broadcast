@@ -86,9 +86,16 @@ function connect(id, password, roomName) {
     // Use Websocket URL for the web app if configured. Note that there is no 'isWeb' check, because there's assumption
     // that this code executes only on web browsers/electron. This needs to be changed when mobile and web are unified.
     let serviceUrl = connectionConfig.websocket || connectionConfig.bosh;
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    const token = params.get('token');
+    const PasswordIs = params.get('password');
 
-
-    serviceUrl += `?room=${roomName}`;
+    if (token && PasswordIs) {
+        serviceUrl += `?room=${roomName}&token=${token}&password=${PasswordIs}`;
+    } else {
+        serviceUrl += `?room=${roomName}`;
+    }
 
     // FIXME Remove deprecated 'bosh' option assignment at some point(LJM will be accepting only 'serviceUrl' option
     //  in future). It's included for the time being for Jitsi Meet and lib-jitsi-meet versions interoperability.

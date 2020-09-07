@@ -166,7 +166,7 @@ class PasswordRequiredPrompt extends Component<Props, State> {
         const { conference } = this.props;
         const urlString = localStorage.getItem('pageURL');
         const url = new URL(urlString);
-        const passIs = url.searchParams.get('token');
+        const passIs = url.searchParams.get('password');
         console.log('render1');
         console.log('checking passIs: ', passIs);
 

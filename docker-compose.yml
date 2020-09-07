@@ -1,29 +1,29 @@
 version: "3"
 
 services:
-    redis:
-        image: redis
-        networks:
-            - meet.jitsi
-    amoxt-service:
-        build:
-            context: .
-            dockerfile: amoxt-broadcast-service/Dockerfile
-        volumes:
-            - ./amoxt-broadcast-service/src:/home/amoxt-broadcast-service/src
-        env_file: ./amoxt-broadcast-service/.env
-        command: npm start
-        ports:
-            - "3000:3000"
-        networks:
-            - meet.jitsi
+    # redis:
+    #     image: redis
+    #     networks:
+    #         - meet.jitsi
+    # amoxt-service:
+    #     build:
+    #         context: .
+    #         dockerfile: amoxt-broadcast-service/Dockerfile
+    #     volumes:
+    #         - ./amoxt-broadcast-service/src:/home/amoxt-broadcast-service/src
+    #     env_file: ./amoxt-broadcast-service/.env
+    #     command: npm start
+    #     ports:
+    #         - "3000:3000"
+    #     networks:
+    #         - meet.jitsi
     # Frontend
     web:
         # image: jitsi/web:latest
-        image: amoxtbroadcast_web:latest
-        # build:
-        #     context: .
-        #     dockerfile: web/Dockerfile
+        # image: amoxtbroadcast_web:latest
+        build:
+            context: .
+            dockerfile: web/Dockerfile
         restart: ${RESTART_POLICY}
         ports:
             - "${HTTP_PORT}:80"

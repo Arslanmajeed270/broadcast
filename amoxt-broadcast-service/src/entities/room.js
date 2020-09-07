@@ -21,8 +21,8 @@ router.post('/create-room', authMiddleware, (req, res, next) => {
     let room_name = req.body.roomName;
     let password = req.body.password;
     let expiryTime = req.body.expTime || process.env.ROOM_EXPIRY_DURATION;
-    let encText = room_name+"|"+password+"|"+expiryTime+"|"+secretKey;
-    var signature = encrypt(encText)
+    let encText = room_name+"|"+defaultPassword+"|"+expiryTime+"|"+secretKey;
+    var signature = encrypt(encText);
 
     let room = password+'|'+signature;
     client.hexists('rooms001', room_name, (err, oldData) => {

@@ -11,7 +11,9 @@ const RedisHost = process.env.REDIS_HOST || '0.0.0.0';
 
 const client = redis.createClient(RedisPort, RedisHost);
 
-const secretKey = process.env.ROOM_SECRET_KEY || "amoxtsolutions123456789abcdefghi";
+const secretKey = process.env.ROOM_SECRET_KEY;
+const serverAddress = process.env.SERVER_ADDRESS;
+const defaultPassword = process.env.DEFAULT_PASSWORD;
 
 
 router.post('/create-room', authMiddleware, (req, res, next) => {
@@ -42,8 +44,7 @@ router.post('/create-room', authMiddleware, (req, res, next) => {
                       }
                       next(err2);
                 }
-                const serverAddress = process.env.SERVER_ADDRESS || "https://localhost:8443/";
-                let link = `${serverAddress+room_name}?password=$temppassword&token=${signature}`;
+                let link = `${serverAddress+room_name}?password=${defaultPassword}&token=${signature}`;
                 res.json({ link: link, room:room_name, message: `Successfully created new room!` });
             });
         }

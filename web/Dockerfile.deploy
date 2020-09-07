@@ -21,7 +21,7 @@ RUN \
 	certbot-auto --noninteractive --install-only
 
 COPY custom-web/jitsi-meet/ usr/share/jitsi-meet/
-RUN npm i && make
+RUN cd usr/share/jitsi-meet/ && npm i && make
 
 EXPOSE 80 443
 

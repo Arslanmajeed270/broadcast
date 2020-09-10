@@ -184,9 +184,8 @@ services:
             - TZ
         depends_on:
             - prosody
-        network_mode: host
-        # networks:
-        # meet.jitsi:
+        networks:
+            meet.jitsi:
 
 # Custom network so all services can communicate using a FQDN
 networks:

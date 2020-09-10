@@ -5,20 +5,6 @@ ADD https://dl.eff.org/certbot-auto /usr/local/bin/
 
 COPY web/rootfs/ /
 
-
-# Installing nodejs
-RUN \
-	apt-dpkg-wrap apt-get update && \
-	apt-get -y install curl build-essential git && \
-	curl -sL https://deb.nodesource.com/setup_14.x | bash && \
-	apt-dpkg-wrap apt-get update && \
-	apt-get install -y nodejs git
-
-RUN mkdir -p /usr/share/jitsi-meet/
-COPY ./custom-web/jitsi-meet/ /usr/share/jitsi-meet/
-RUN cd /usr/share/jitsi-meet/ && \
-	npm i && make
-
 RUN \
 	apt-dpkg-wrap apt-get update && \
 	apt-dpkg-wrap apt-get install -y cron nginx-extras jitsi-meet-web && \
@@ -34,6 +20,16 @@ RUN \
 	chmod a+x /usr/local/bin/certbot-auto && \
 	certbot-auto --noninteractive --install-only
 
+# Installing nodejs
+RUN \
+	apt-get -y install curl build-essential git && \
+	curl -sL https://deb.nodesource.com/setup_14.x | bash && \
+	apt-dpkg-wrap apt-get update && \
+	apt-get install -y nodejs git
+
+COPY ./custom-web/jitsi-meet/ /usr/share/jitsi-meet/
+RUN cd /usr/share/jitsi-meet/ && \
+	npm i && make
 
 EXPOSE 80 443
 

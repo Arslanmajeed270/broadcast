@@ -17,6 +17,7 @@ RUN mkdir -p /usr/share/jitsi-meet/
 COPY ./custom-web/jitsi-meet/ /usr/share/jitsi-meet/
 RUN cd /usr/share/jitsi-meet/ && \
 	npm cache clean -f && \
+	ls && \
 	rm -rf node_modules && \
 	npm ci && make
 

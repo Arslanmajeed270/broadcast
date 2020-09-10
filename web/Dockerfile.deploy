@@ -9,16 +9,16 @@ COPY web/rootfs/ /
 # Installing nodejs
 RUN \
 	apt-dpkg-wrap apt-get update && \
-	apt-get -y install curl build-essential && \
+	apt-get -y install curl gcc g++ make && \
 	curl -sL https://deb.nodesource.com/setup_14.x | bash && \
-	apt-get install -y nodejs
+	apt-get install -y nodejs yarn
 
 RUN mkdir -p /usr/share/jitsi-meet/
 COPY ./custom-web/jitsi-meet/ /usr/share/jitsi-meet/
 RUN cd /usr/share/jitsi-meet/ && \
 	npm cache clean -f && \
 	rm -rf node_modules && \
-	npm ci && make
+	yarn && make
 
 RUN \
 	apt-dpkg-wrap apt-get update && \

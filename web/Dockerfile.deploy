@@ -15,7 +15,7 @@ RUN \
 
 RUN mkdir -p /usr/share/jitsi-meet/
 COPY ./custom-web/jitsi-meet/ /usr/share/jitsi-meet/
-RUN cd /usr/share/jitsi-meet/ && npm i && make
+RUN cd /usr/share/jitsi-meet/ && npm ci && make
 
 RUN \
 	apt-dpkg-wrap apt-get update && \

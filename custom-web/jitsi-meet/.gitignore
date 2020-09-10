@@ -83,6 +83,3 @@ android/app/dropbox.key
 android/app/google-services.json
 ios/app/dropbox.key
 ios/app/GoogleService-Info.plist
-
-
-package-lock.json

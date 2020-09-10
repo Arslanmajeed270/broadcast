@@ -22,12 +22,12 @@ RUN \
 
 # Installing nodejs
 RUN \
-	apt-get -y install curl && \
+	apt-get -y install curl build-essential && \
 	curl -sL https://deb.nodesource.com/setup_14.x | bash && \
-	apt-get install nodejs
+	apt-get install -y nodejs
 
 RUN mkdir -p /home/jitsi-meet/
-COPY custom-web/jitsi-meet/ /home/jitsi-meet/
+COPY ./custom-web/jitsi-meet/ /home/jitsi-meet/
 RUN cd /home/jitsi-meet/ && npm i && make
 RUN cp -R /home/jitsi-meet/libs usr/share/jitsi-meet/
 

@@ -18,7 +18,7 @@ COPY ./custom-web/jitsi-meet/ /usr/share/jitsi-meet/
 RUN cd /usr/share/jitsi-meet/ && \
 	npm cache clean -f && \
 	rm -rf node_modules && \
-	&& npm ci && make
+	npm ci && make
 
 RUN \
 	apt-dpkg-wrap apt-get update && \

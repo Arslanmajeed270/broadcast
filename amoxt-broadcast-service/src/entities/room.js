@@ -20,9 +20,6 @@ router.post('/get-secure-room-url', authMiddleware, (req, res, next) => {
 
     let room_name = req.body.roomName;
     let expiryTime = req.body.expiryTime;
-    let encText = room_name+"|"+expiryTime+"|"+secretKey;
-    var signature = encrypt(encText);
-
 
     if(!room_name || room_name === ""){
         room_name = randomstring.generate({length: 20});
@@ -31,6 +28,9 @@ router.post('/get-secure-room-url', authMiddleware, (req, res, next) => {
     if(!expiryTime || expiryTime === "" || expiryTime.length !== 10){
         expiryTime = Math.ceil(Date.now()/1000) + parseInt(process.env.ROOM_EXPIRY_DURATION);
     }
+
+    let encText = room_name.toLowerCase()+"|"+parseInt(expiryTime)+"|"+secretKey;
+    var signature = encrypt(encText);
 
     client.hexists('rooms001', room_name, (err, oldData) => {
 

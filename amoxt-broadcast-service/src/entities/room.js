@@ -3,6 +3,7 @@ const {encrypt, decrypt} = require('../util/crypto');
 const authMiddleware = require('../middleware/auth');
 
 const express = require('express');
+const randomstring = require("randomstring");
 
 const router = express.Router();
 
@@ -15,18 +16,22 @@ const secretKey = process.env.ROOM_SECRET_KEY;
 const serverAddress = process.env.SERVER_ADDRESS;
 
 
-router.post('/create-room', authMiddleware, (req, res, next) => {
+router.post('/get-secure-room-url', authMiddleware, (req, res, next) => {
 
     let room_name = req.body.roomName;
-    let expiryTime = Math.ceil(Date.now()/1000) + process.env.ROOM_EXPIRY_DURATION;
+    let expiryTime = req.body.expiryTime;
     let encText = room_name+"|"+expiryTime+"|"+secretKey;
     var signature = encrypt(encText);
 
+
     if(!room_name || room_name === ""){
-        throw new Error('Empty roomName! Please provide a roomName.');
+        room_name = randomstring.generate({length: 20});
+    }
+    
+    if(!expiryTime || expiryTime === "" || expiryTime.length !== 10){
+        expiryTime = Math.ceil(Date.now()/1000) + parseInt(process.env.ROOM_EXPIRY_DURATION);
     }
 
-    let room = signature;
     client.hexists('rooms001', room_name, (err, oldData) => {
 
         if(err){
@@ -39,7 +44,7 @@ router.post('/create-room', authMiddleware, (req, res, next) => {
 
         if(oldData < 1){
 
-            client.hset('rooms001', room_name, room, (err2, data) => {
+            client.hset('rooms001', room_name, signature, (err2, data) => {
                 if(err2){
                     if (!err2.statusCode) {
                         err2.statusCode = 500;

@@ -4,7 +4,6 @@ WORKDIR /home/amoxt-broadcast-service
 
 COPY amoxt-broadcast-service/package.json package.json
 # COPY package.json package.json
-# COPY package-lock.json package-lock.json
 RUN npm i
 
 RUN command

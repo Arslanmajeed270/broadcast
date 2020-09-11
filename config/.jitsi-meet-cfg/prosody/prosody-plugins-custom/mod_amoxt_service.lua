@@ -38,15 +38,15 @@ function init_session(event)
 		-- log("info", "checking expiry %s", tostring(session.expiry));
 		
 		if tonumber(session.expiry) < currentTime then
-			log("info", "into expiry session");
+			-- log("info", "into expiry session");
 			session.close(session, 'Time expire!');
 		end
 		local PRIVATE_KEY = "amoxtsolutions123456789abcdefghi";
-		local raw = params.room.."|"..session.expiry.."|"..PRIVATE_KEY; 
+		local raw = params.room.."|"..tonumber(session.expiry).."|"..PRIVATE_KEY; 
 		-- log("info", "checking i am into verify_token raw: %s", raw);
 		local decoded = hex.to(sha256(raw));
  		-- log("info", "checking decoded: %s", tostring(decoded) );
- 		-- log("info", "checking token: %s", tostring(decoded) );
+ 		-- log("info", "checking token: %s", tostring(session.token) );
 	 	if decoded ~= session.token then
  			session.close(session, 'unauthorized');
  		end

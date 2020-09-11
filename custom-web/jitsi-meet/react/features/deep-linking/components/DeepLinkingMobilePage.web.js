@@ -80,7 +80,7 @@ class DeepLinkingMobilePage extends Component<Props> {
     componentDidMount() {
         sendAnalytics(
             createDeepLinkingPageEvent(
-                'displayed', 'DeepLinkingMobile', { isMobileBrowser: true }));
+                'displayed', 'DeepLinkingMobile', { isMobileBrowser: false }));
     }
 
     /**

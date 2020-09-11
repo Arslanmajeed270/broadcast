@@ -89,10 +89,10 @@ function connect(id, password, roomName) {
     const search = window.location.search;
     const params = new URLSearchParams(search);
     const token = params.get('token');
-    const PasswordIs = params.get('password');
+    const expiry = params.get('expiry');
 
-    if (token && PasswordIs) {
-        serviceUrl += `?room=${roomName}&token=${token}&password=${PasswordIs}`;
+    if (token && expiry) {
+        serviceUrl += `?room=${roomName}&token=${token}&expiry=${expiry}`;
     } else {
         serviceUrl += `?room=${roomName}`;
     }

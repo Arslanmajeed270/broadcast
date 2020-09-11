@@ -50,8 +50,8 @@ type State = {
  */
 class PasswordRequiredPrompt extends Component<Props, State> {
     state = {
-        password: '',
-        visible: false
+        password: ''
+        // visible: false
     };
 
     /**
@@ -74,11 +74,11 @@ class PasswordRequiredPrompt extends Component<Props, State> {
      *
      * @returns {void}
      */
-    componentDidMount() {
+    // componentDidMount() {
 
-        this._onSubmit();
+    //     this._onSubmit();
 
-    }
+    // }
 
     /**
      * Implements React's {@link Component#render()}.
@@ -88,7 +88,8 @@ class PasswordRequiredPrompt extends Component<Props, State> {
      */
     render() {
         return (
-            this.state.visible && <Dialog
+            // this.state.visible && <Dialog
+            <Dialog
                 disableBlanketClickDismiss = { true }
                 isModal = { false }
                 onCancel = { this._onCancel }
@@ -164,11 +165,14 @@ class PasswordRequiredPrompt extends Component<Props, State> {
     _onSubmit() {
 
         const { conference } = this.props;
-        const urlString = localStorage.getItem('pageURL');
-        const url = new URL(urlString);
-        const passIs = url.searchParams.get('password');
-        console.log('render1');
-        console.log('checking passIs: ', passIs);
+
+        // const urlString = localStorage.getItem('pageURL');
+        // const url = new URL(urlString);
+        // const passIs = url.searchParams.get('password');
+        // console.log('render1');
+        // console.log('checking passIs: ', passIs);
+
+        
 
         // We received that password is required, but user is trying anyway to
         // login without a password. Mark the room as not locked in case she
@@ -176,7 +180,7 @@ class PasswordRequiredPrompt extends Component<Props, State> {
         // still locked, another password required will be received and the room
         // again will be marked as locked.
         this.props.dispatch(
-            setPassword(conference, conference.join, passIs));
+            setPassword(conference, conference.join, this.state.password));
 
         // We have used the password so let's clean it.
         this.setState({
@@ -188,3 +192,4 @@ class PasswordRequiredPrompt extends Component<Props, State> {
 }
 
 export default translate(connect()(PasswordRequiredPrompt));
+

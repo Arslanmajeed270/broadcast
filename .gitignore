@@ -3,4 +3,6 @@
 .env.bak
 docker-compose.override.yml
 .vscode/
-config/.jitsi-meet-cfg/prosody/config/data/prosody.pid
+config/.jitsi-meet-cfg/prosody/config/data/
+config/.jitsi-meet-cfg/jibri/logs/
+config/.jitsi-meet-cfg/jibri/recordings/

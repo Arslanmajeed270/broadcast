@@ -16,7 +16,7 @@ const secretKey = process.env.ROOM_SECRET_KEY;
 const serverAddress = process.env.SERVER_ADDRESS;
 
 
-router.post('/get-secure-room-url', authMiddleware, (   req, res, next) => {
+router.post('/get-secure-room-url', authMiddleware, (req, res, next) => {
 
     let room_name = req.body.roomName;
     let expiryTime = req.body.expiryTime;

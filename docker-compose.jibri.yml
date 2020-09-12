@@ -28,3 +28,8 @@ services:
             - JIBRI_LOGS_DIR
             - DISPLAY=:0
             - TZ
+        networks:
+            amoxtbroadcast_meet.jitsi:
+networks:
+    amoxtbroadcast_meet.jitsi:
+        external: true
